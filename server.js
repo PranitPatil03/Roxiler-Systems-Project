@@ -6,6 +6,7 @@ const fetch = require('node-fetch');
 
 app.use(express.json())
 
+// GET /todos - returns a list of todos without user id field
 
 app.get('/todos', async (req, resp) => {
 
@@ -13,7 +14,6 @@ app.get('/todos', async (req, resp) => {
 
     fetch(URL).then((res) => {
         res.json().then((data) => {
-            console.log(data)
             data.forEach(object => {
                 delete object['userId'];
             });
@@ -22,6 +22,25 @@ app.get('/todos', async (req, resp) => {
     })
 })
 
+// GET /user/<pass-your-user-id> - returns user information along with todo items
+// where userid matches with the one provided in the URL
+
+
+app.get('/users/:id',(req, resp)=>{
+
+    const URL = "https://jsonplaceholder.typicode.com/users"
+
+    fetch(URL).then((res) => {
+        res.json().then((data) => {
+            for (const item of data) 
+            {
+                if(item.id==req.params.id){
+                    resp.send(item)
+                }
+            }
+        });
+    })
+})
 
 
 app.get("/", (req, res) => {
