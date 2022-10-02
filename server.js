@@ -35,6 +35,11 @@ app.get('/users/:id',(req, resp)=>{
             for (const item of data) 
             {
                 if(item.id==req.params.id){
+
+                    delete item['address'];
+                    delete item['company'];
+                    delete item['website'];
+                    
                     resp.send(item)
                 }
             }
