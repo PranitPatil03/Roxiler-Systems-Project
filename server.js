@@ -25,21 +25,34 @@ app.get('/todos', async (req, resp) => {
 // GET /user/<pass-your-user-id> - returns user information along with todo items
 // where userid matches with the one provided in the URL
 
-
-app.get('/users/:id',(req, resp)=>{
+app.get('/users/:id', (req, resp) => {
 
     const URL = "https://jsonplaceholder.typicode.com/users"
+    var todos=[]
 
     fetch(URL).then((res) => {
         res.json().then((data) => {
-            for (const item of data) 
-            {
-                if(item.id==req.params.id){
+            for (const item of data) {
+                if (item.id == req.params.id) {
 
                     delete item['address'];
                     delete item['company'];
                     delete item['website'];
-                    
+
+                    const URL = "https://jsonplaceholder.typicode.com/todos"
+
+                    fetch(URL).then((res) => {
+                        res.json().then((data) => {
+                            data.forEach(object => {
+                                if (object.userId == req.params.id){
+                                    todos=[]
+                                    todos.push(object)
+                                } 
+                            });
+                        });
+                    })
+                    item.todos=todos;
+                    console.log(item)
                     resp.send(item)
                 }
             }
