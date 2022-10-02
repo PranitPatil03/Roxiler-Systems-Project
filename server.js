@@ -28,7 +28,7 @@ app.get('/todos', async (req, resp) => {
 app.get('/users/:id', (req, resp) => {
 
     const URL = "https://jsonplaceholder.typicode.com/users"
-    var todos=[]
+    var todos = []
 
     fetch(URL).then((res) => {
         res.json().then((data) => {
@@ -44,17 +44,17 @@ app.get('/users/:id', (req, resp) => {
                     fetch(URL).then((res) => {
                         res.json().then((data) => {
                             data.forEach(object => {
-                                if (object.userId == req.params.id){
-                                    todos=[]
+                                var todos = []
+                                if (object.userId == req.params.id) {
                                     todos.push(object)
-                                } 
+                                }
                             });
                         });
                     })
-                    item.todos=todos;
-                    console.log(item)
+                    item.todos = todos;
                     resp.send(item)
                 }
+
             }
         });
     })
